@@ -14,11 +14,11 @@ const App = () => {
     setLoading(true);
     setIsOpen(true);
 
-    const options = {
+    const options = { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer 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`,
+        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'text-davinci-003',
@@ -36,7 +36,7 @@ const App = () => {
 
     try {
       const response = await fetch(
-        'https://api.openai.com/v1/completions',
+        import.meta.env.VITE_OPENAI_API_URL,
         options
       );
       const json = await response.json();
