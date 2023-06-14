@@ -17,13 +17,17 @@ import {
         <Modal isOpen={isOpen} onClose={closeModal}>
           <ModalOverlay />
           <ModalContent>
-            <ModalHeader>Keywords</ModalHeader>
+            <ModalHeader>
+                Keywords
+            </ModalHeader>
             <ModalCloseButton />
             <ModalBody display='flex' alignItems='center' justifyContent='center'>
               {loading ? (
-                <CircularProgress isIndeterminate color='blue.300' />
+                <CircularProgress isIndeterminate color='red.300' />
               ) : (
-                <Text>{keywords}</Text>
+                <Text>
+                    {keywords}
+                </Text>
               )}
             </ModalBody>
   

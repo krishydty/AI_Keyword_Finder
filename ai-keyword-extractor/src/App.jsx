@@ -3,7 +3,7 @@ import { Container, Box } from '@chakra-ui/react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import TextInput from './components/TextInput';
-
+import KeywordsModal from './components/KeywordModal';
 
 const App = () => {
   const [keywords, setKeywords] = useState([]);
@@ -18,7 +18,7 @@ const App = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+        Authorization: `Bearer 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`,
       },
       body: JSON.stringify({
         model: 'text-davinci-003',
@@ -33,12 +33,23 @@ const App = () => {
         presence_penalty: 0.0,
       }),
     };
-    const response = await fetch(
-      import.meta.env.VITE_OPENAI_API_URL,
-      options
-    );
-    const json = await response.json();
 
+    try {
+      const response = await fetch(
+        'https://api.openai.com/v1/completions',
+        options
+      );
+      const json = await response.json();
+      console.log(json.choices[0].text.trim());
+      setKeywords(json.choices[0].text.trim());
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
   };
 
   return (
@@ -48,7 +59,12 @@ const App = () => {
         <TextInput extractKeywords={extractKeywords} />
         <Footer />
       </Container>
-      
+      <KeywordsModal
+        keywords={keywords}
+        loading={loading}
+        isOpen={isOpen}
+        closeModal={closeModal}
+      />
     </Box>
   );
 };
